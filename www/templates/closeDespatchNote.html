@@ -1,0 +1,29 @@
+<ion-view view-title="{{vm.action}}">
+  <ion-content>
+    <div class="card">
+      <div class="item item-divider">
+        {{vm.action}} DN?
+      </div>
+      <div ng-show="vm.action == 'cancel'" class="item item-text-wrap">
+        You got somewhere else you'd rather be?
+      </div>
+      <div ng-show="vm.action == 'park'" class="item item-text-wrap">
+        Brew o'clock ?
+      </div>
+      <di ng-show="vm.action == 'complete'" class="item item-text-wrap">
+        (TARGET_QTY == ACTUAL_QTY) == "Yay you're done, lets complete" : "You have pick fails!"
+      </div>
+    </div>
+    <div class="card" >
+
+      <div class="item item-text-wrap">
+        <a href="#/app/home">Yup {{vm.action}} it!</a>
+      </div>
+      <div class="item item-text-wrap">
+        <a href="#/app/despatchNote">Don't {{vm.action}} it!</a>
+    </div>
+    </div>
+
+
+  </ion-content>
+</ion-view>

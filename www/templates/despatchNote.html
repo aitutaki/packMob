@@ -1,0 +1,39 @@
+<ion-view view-title="D/N: {{vm.data.DESPATCH_NUM}}">
+    <ion-content>
+        <ul class="list">
+            <li class="item item-thumbnail-left" ng-repeat="item in vm.data.items">
+                <img  ng-src="{{vm.imgUrl}}{{item.PRODUCT_CODE}}.jpg">
+                <span class="badge badge-stable">{{item.TARGET_LOCATION}}</span>
+                <p><b>{{item.PRODUCT_CODE}}</b></p>
+                <p></p>
+                <p>{{item.LONG_DESCRIPTION_1}} </p>
+
+                <p>{{item.BATCH_ID}} {{item.EXPIRY_DATE}}</p>
+
+                <div class="list-input">
+                    <span class="list-input-label">/ {{item.TARGET_QUANTITY}} {{item.UNIT_CODE}} &nbsp; &nbsp;</span>
+                    <input type="number" ng-model="item.ACTUAL_QUANTITY" style="text-align: right; border: 1px solid #ddd; width: 4em;">
+                </div>
+            </li>
+        </ul>
+    </ion-content>
+
+
+    <div class="bar bar-footer bar-stable">
+        <div class="tabs tabs-icon-top">
+            <a class="tab-item" href="#/app/closeDespatchNote/cancel">
+                <i class="icon ion-ios-trash"></i>cancel
+            </a>
+            <a class="tab-item" href="#/app/closeDespatchNote/park">
+                <i class="icon ion-pin"></i>park
+            </a>
+            <a class="tab-item" href="#/app/closeDespatchNote/complete">
+                <i class="icon ion-checkmark" ></i>complete
+            </a>
+            <a class="tab-item">
+                <i class="icon ion-ios-camera"></i>scan
+            </a>
+        </div>
+
+    </div>
+</ion-view>
