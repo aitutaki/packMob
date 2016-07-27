@@ -101,6 +101,22 @@ angular.module('starter.controllers', [])
         this.action = $stateParams.action;
     })
 
-    .controller('HomeCtrl', function($scope, $stateParams) {
+    .controller('HomeCtrl', function($scope, $stateParams, $http) {
         this.packer = 'barry';
+        this.login = function() {
+          alert("Attempting GET...");
+          try {
+            $http.get("http://www.trilanco.com/userFiles/dashAppy.php/loadDN/2165657")
+              .then(function(data) {
+                alert("OK");
+                alert(JSON.stringify(data));
+              }, function(e) {
+                alert("ERROR");
+                alert(JSON.stringify(e));
+              });
+          } catch (e) {
+            alert("CATCH");
+            alert(e);
+          }
+        };
     });
