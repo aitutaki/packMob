@@ -52,12 +52,38 @@ angular.module('starter.controllers', [])
           });
         }
 
+        function findProductAndIncrement(barCodeID) {
+          var products = (_this.data || {}).items || [];
+          var product;
+
+          alert("BC is " + barCodeID);
+          for (var i=0; i < products.length; i++) {
+            product = products[i];
+            alert(product.PRODUCT_KEY3);
+            if (product.PRODUCT_KEY3 == barCodeID) {
+              product.ACTUAL_QUANTITY = product.ACTUAL_QUANTITY || 0;
+              product.ACTUAL_QUANTITY++;
+              alert("Qty is now" + product.ACTUAL_QUANTITY);
+              break;
+            }
+          }
+        }
+
         this.barCodify = function() {
           try {
             $cordovaBarcodeScanner.scan()
               .then(function(data) {
-                //alert(JSON.stringify(data));
+                // alert(JSON.stringify(data));
                 // data.text
+                if (data.cancelled === 0) {
+                  if (data.text) {
+                    // Check for the product on the DN
+                    findProductAndIncrement(data.text);
+                  }
+                  else {
+                    throw "Unable to read barcode.";
+                  }
+                }
               })
               .catch(function(e) {
                 alert(e);
