@@ -1,5 +1,17 @@
 <ion-view view-title="PACKSTATION">
   <ion-content>
+    <div class="list">
+
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Set Packer
+        </div>
+        <select ng-options="v.id as v.name for v in vm.packers" ng-model="vm.packer" ng-change="vm.setPacker(vm.packer)"></select>
+      </label>
+
+    </div>
+
+      <!--
       <div class="card" ng-if="vm.isLoggedIn()">
           <div class="item item-divider">
               Set Packer
@@ -14,10 +26,10 @@
           </div>
       </div>
 
-      <div class="card" ng-if="!vm.isLoggedIn()">
-          <div class="item item-divider" ng-click="vm.authenticate()">
-              Please login
-          </div>
+      <div class="padding" ng-if="!vm.isLoggedIn()">
+        <ion-spinner icon="spiral"></ion-spinner>
+        Logging into the network...
       </div>
+      -->
   </ion-content>
 </ion-view>

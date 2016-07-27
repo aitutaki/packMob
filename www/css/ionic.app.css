@@ -9823,6 +9823,9 @@ a.button {
   font-family: "din-regular-webfont";
   src: url("din-regular-webfont.woff"); }
 
+ion-side-menu {
+  background-color: #eee !important; }
+
 .list-input {
   margin-top: 2ex;
   float: left;

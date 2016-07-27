@@ -38,7 +38,9 @@ $font-family-light-sans-serif: 'din-regular-webfont', '-apple-system', "Helvetic
   src: url("din-regular-webfont.woff");
 }
 
-
+ion-side-menu {
+  background-color: #eee !important;
+}
 
 .list-input {
     margin-top: 2ex;
