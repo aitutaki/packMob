@@ -1,6 +1,6 @@
-<ion-view view-title="PackStation">
+<ion-view view-title="PACKSTATION">
   <ion-content>
-      <div class="card">
+      <div class="card" ng-if="vm.isLoggedIn()">
           <div class="item item-divider">
               Set Packer
           </div>
@@ -11,6 +11,12 @@
                   </label>
                   <button class="button button-small" ng-click="vm.login()">login</button>
               </div>
+          </div>
+      </div>
+
+      <div class="card" ng-if="!vm.isLoggedIn()">
+          <div class="item item-divider" ng-click="vm.authenticate()">
+              Please login
           </div>
       </div>
   </ion-content>

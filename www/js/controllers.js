@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicPlatform) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -8,6 +8,8 @@ angular.module('starter.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+
+
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -101,22 +103,19 @@ angular.module('starter.controllers', [])
         this.action = $stateParams.action;
     })
 
-    .controller('HomeCtrl', function($scope, $stateParams, $http) {
+    .controller('HomeCtrl', function($scope, $stateParams, $http, $ionicPlatform, Auth) {
         this.packer = 'barry';
-        this.login = function() {
-          alert("Attempting GET...");
-          try {
-            $http.get("http://www.trilanco.com/userFiles/dashAppy.php/loadDN/2165657")
-              .then(function(data) {
-                alert("OK");
-                alert(JSON.stringify(data));
-              }, function(e) {
-                alert("ERROR");
-                alert(JSON.stringify(e));
-              });
-          } catch (e) {
-            alert("CATCH");
-            alert(e);
-          }
-        };
+        this.login = function(){};
+
+        $ionicPlatform.ready(function() {
+          // alert("ready");
+          Auth.authenticate().then(function() {
+            $scope.$apply();
+          }, function() {
+            alert("uh oh");
+          });
+        });
+
+        this.isLoggedIn = Auth.isLoggedIn;
+        this.authenticate = Auth.authenticate;
     });

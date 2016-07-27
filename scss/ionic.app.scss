@@ -15,14 +15,30 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
-$stable: #007934 !default;
-$button-stable-text: white !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
+$stable: #007934 !default;
+$button-stable-text: white !default;
+
+$font-family-sans-serif: 'din-bold-webfont', '-apple-system', "Helvetica Neue", "Roboto", "Segoe UI", sans-serif !important;
+$font-family-light-sans-serif: 'din-regular-webfont', '-apple-system', "HelveticaNeue-Light", "Roboto-Light", "Segoe UI-Light", sans-serif-light !important;
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+@font-face {
+  font-family: "din-bold-webfont";
+  src: url("din-bold-webfont.woff");
+}
+
+@font-face {
+  font-family: "din-regular-webfont";
+  src: url("din-regular-webfont.woff");
+}
+
+
 
 .list-input {
     margin-top: 2ex;

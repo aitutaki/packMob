@@ -3,6 +3,31 @@
  */
 
 angular.module('starter.services', [])
+    .service("Auth", ["$q", function($q) {
+      var _this = this;
+      var baseURL = "http://www.trilanco.com/userFiles/dashAppy.php/loadDN/2165657";
+
+      this.loggedIn = false;
+      this.isLoggedIn = function() { return _this.loggedIn; };
+
+
+      this.authenticate = function() {
+        var def = $q.defer();
+        authDialog.authenticate(baseURL,
+          function () {
+            alert("ok");
+            _this.loggedIn = true;
+            def.resolve();
+          },
+          function() {
+            alert("not ok");
+            _this.loggedIn = false;
+            def.reject();
+          });
+        return def.promise;
+      };
+    }])
+
     .factory("DespNotes", ["$q", function($q) {
         var data = {
             'DESPATCH_NUM':455,

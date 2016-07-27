@@ -21,7 +21,8 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "https://github.com/phonegap/phonegap-plugin-barcodescanner.git"
+    "https://github.com/phonegap/phonegap-plugin-barcodescanner.git",
+    "https://github.com/MSOpenTech/cordova-plugin-auth-dialog.git"
   ],
   "cordovaPlatforms": []
 }
