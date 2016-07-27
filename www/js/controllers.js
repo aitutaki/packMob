@@ -41,7 +41,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-    .controller('DespatchNoteCtrl', function($scope, $stateParams, DespNotes) {
+    .controller('DespatchNoteCtrl', function($scope, $stateParams, DespNotes, $cordovaBarcodeScanner) {
       var _this = this;
       this.imgUrl = 'http://www.trilanco.com/userFiles/eShop/images/detail/';
 
@@ -50,6 +50,22 @@ angular.module('starter.controllers', [])
           DespNotes.getDespatchNote().then(function(data){
             _this.data = data;
           });
+        }
+
+        this.barCodify = function() {
+          try {
+            $cordovaBarcodeScanner.scan()
+              .then(function(data) {
+                //alert(JSON.stringify(data));
+                // data.text
+              })
+              .catch(function(e) {
+                alert(e);
+              });
+          }
+          catch(e) {
+            alert(e);
+          }
         }
 
         init();
