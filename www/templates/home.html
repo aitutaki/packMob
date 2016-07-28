@@ -4,32 +4,25 @@
 
       <label class="item item-input item-select">
         <div class="input-label">
-          Set Packer
+          Set Packer {{vm.packers.length}}
         </div>
-        <select ng-options="v.id as v.name for v in vm.packers" ng-model="vm.packer" ng-change="vm.setPacker(vm.packer)"></select>
+        <select ng-options="p.packerID as p.packerName for p in vm.packers" ng-model="vm.packer" ng-change="vm.setPacker(vm.packer)"></select>
       </label>
+
+      <div class="item" ng-if="vm.packer">
+        <button type="button" class="button button-stable" ng-click="vm.requestDN()" style="width: 50%">
+          <i class="ion-document-text" style="font-size: 36pt;"></i>
+          <br />
+          Request D/N
+        </button>
+        <button type="button" class="button button-stable" ng-click="vm.barCodify()" style="width: 50%">
+          <i class="ion-ios-barcode-outline" style="font-size: 36pt;"></i>
+          <br />
+          Scan D/N
+        </button>
+      </div>
 
     </div>
 
-      <!--
-      <div class="card" ng-if="vm.isLoggedIn()">
-          <div class="item item-divider">
-              Set Packer
-          </div>
-          <div class="list">
-              <div class="item item-input-inset">
-                  <label class="item-input-wrapper">
-                      <input type="text" placeholder="packer" ng-model="vm.packer">
-                  </label>
-                  <button class="button button-small" ng-click="vm.login()">login</button>
-              </div>
-          </div>
-      </div>
-
-      <div class="padding" ng-if="!vm.isLoggedIn()">
-        <ion-spinner icon="spiral"></ion-spinner>
-        Logging into the network...
-      </div>
-      -->
   </ion-content>
 </ion-view>
