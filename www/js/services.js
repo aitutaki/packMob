@@ -37,7 +37,7 @@ angular.module('starter.services', [])
   };
 
   this.del = function(key) {
-    window.localStorage.clearItem(key);
+    window.localStorage.removeItem(key);
   };
 }])
 

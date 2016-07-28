@@ -1,13 +1,17 @@
 <ion-view view-title="PACKSTATION">
   <ion-content>
     <div class="list">
-
       <label class="item item-input item-select">
         <div class="input-label">
-          Set Packer {{vm.packers.length}}
+          <i class="icon ion-person"></i>
+          Set Packer
         </div>
         <select ng-options="p.packerID as p.packerName for p in vm.packers" ng-model="vm.packer" ng-change="vm.setPacker(vm.packer)"></select>
       </label>
+      <div class="item" ng-click="vm.scanPacker($event)">
+        <i class="ion-ios-barcode-outline"></i>
+        Scan Packer Bar Code
+      </div>
 
       <div class="item" ng-if="vm.packer">
         <button type="button" class="button button-stable" ng-click="vm.requestDN()" style="width: 50%">

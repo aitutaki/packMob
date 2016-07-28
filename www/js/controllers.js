@@ -124,7 +124,10 @@ angular.module('starter.controllers', [])
       });
     };
 
-    this.scanPacker = function() {
+    this.scanPacker = function($event) {
+      $event.stopImmediatePropagation();
+      $event.preventDefault();
+
       _barCodify(function(barCodeID) {
         _this.packer = barCodeID;
         Auth.setPacker(barCodeID);
