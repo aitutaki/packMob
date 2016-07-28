@@ -43,7 +43,7 @@ angular.module('starter.services', [])
 
 .service("Packers", ["$q", "API", "Storage", "Auth", function($q, API, Storage, Auth) {
   var _this = this;
-  this.packer = Number(Storage.get("packer") || "0");
+  this.packer = Storage.get("packer");
 
   this.getPackers = function() {
     var def = $q.defer();
@@ -71,7 +71,7 @@ angular.module('starter.services', [])
 
 .service("Auth", ["$q", "Storage", function($q, Storage) {
   var _this = this;
-  var packer = Number(Storage.get("packer") || "0");
+  var packer = Storage.get("packer");
 
   this.loggedIn = false;
   this.isLoggedIn = function() { return _this.loggedIn; };
@@ -112,23 +112,29 @@ angular.module('starter.services', [])
 
         if (despatchNote) {
           // Specific D/N Requested
-          API.get("/despatchnote/" + despatchNote).then(function(data) {
-            var dn;
-            if (data && data.data)
-            {
-              dn = data.data.despatchnote;
-              if (dn.STATUS == 0) {
-                Storage.set("despatchNote", dn, true);
-                _data = dn;
-                deferred.resolve(dn);
+          API.get("/despatchnote/" + despatchNote).then(
+            function(data) {
+              var dn;
+              if (data && data.data)
+              {
+                dn = data.data.despatchnote;
+                //if (dn.STATUS == 0) {
+                  Storage.set("despatchNote", dn, true);
+                  _data = dn;
+                  deferred.resolve(dn);
+                /*
+                }
+                else {
+                  deferred.reject();
+                }
+                */
               }
               else {
                 deferred.reject();
               }
-            }
-            else {
-              deferred.reject();
-            }
+            },
+          function(err) {
+            deferred.reject();
           });
           return deferred.promise;
         }
@@ -141,7 +147,7 @@ angular.module('starter.services', [])
                 if (dn.DESPATCH_NUM == local.DESPATCH_NUM) {
                   // Use the local one.
                   _data = local;
-                  deferred.resovle(local);
+                  deferred.resolve(local);
                 }
                 else {
                   _data = dn;

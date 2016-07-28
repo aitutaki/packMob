@@ -15,7 +15,6 @@ angular.module('starter.controllers', [])
     });
     */
     _this.data = DespNotes.currentDespNote(); //Storage.get("despatchNote", true);
-    alert(JSON.stringify(_this.data));
   }
 
   this.updateProductQuanty = function(barcodeID, qty) {
@@ -63,28 +62,32 @@ angular.module('starter.controllers', [])
 
     // Load the last logged in packer.
     this.packer = Storage.get("packer");
-    if (!!this.packer) this.packer = Number(this.packer);
+    if (!!this.packer) this.packer = this.packer;
 
     this.packers = [];
     this.login = function(){};
 
     function _requestDN() {
-      DespNotes.getDespatchNote().then(
-        function(data) {
-          $state.go("app.despatchNote");
-        },
-        function(e) {
-          alert("Cannot get next DN. " + e);
+      $ionicLoading.show({
+        template: '<ion-spinner icon="ios-small"></ion-spinner>'
+      }).then(function(){
+        DespNotes.getDespatchNote().then(
+          function(data) {
+            $state.go("app.despatchNote");
+            $ionicLoading.hide();
+          },
+          function(e) {
+            $ionicLoading.hide();
+            alert("Cannot get next DN. " + e);
+          });
         });
     }
 
-    this.barCodify = function(cb) {
+    function _barCodify (cb) {
       try {
         $cordovaBarcodeScanner.scan()
           .then(function(data) {
-            // alert(JSON.stringify(data));
-            // data.text
-            if (data.cancelled === 0) {
+            if (data.cancelled == 0) {
               if (data.text) {
                 cb && cb(data.text);
               }
@@ -100,18 +103,24 @@ angular.module('starter.controllers', [])
       catch(e) {
         alert("2 ERR:" + e);
       }
-    };
+    }
 
     this.scanDN = function() {
       _barCodify(function(barCodeID) {
         // Check for the product on the DN
-        DespNotes.getDespatchNote(barCodeID).then(
-          function() {
-            $state.go("app.despatchNote");
-          },
-          function() {
-            alert("Unable to get D/N.");
-          });
+        $ionicLoading.show({
+          template: '<ion-spinner icon="ios-small"></ion-spinner>'
+        }).then(function(){
+          DespNotes.getDespatchNote(barCodeID).then(
+            function(data) {
+              $state.go("app.despatchNote");
+              $ionicLoading.hide();
+            },
+            function() {
+              $ionicLoading.hide();
+              alert("Unable to get D/N.");
+            });
+        });
       });
     };
 
