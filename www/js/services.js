@@ -102,6 +102,15 @@ angular.module('starter.services', [])
 
 .factory("DespNotes", ["$q", "Storage", "API", function($q, Storage, API) {
     var _data = {};
+    var products = {};
+
+    function _setupProducts(items) {
+      for (var key in items) {
+        var item = items[key];
+        products[item.PRODUCT_KEY3] = item;
+      }
+      return products;
+    }
 
     function _getDespatchNote (despatchNote) {
         // In order to get the latest DN, check if we've got one stored on-device.
@@ -121,6 +130,7 @@ angular.module('starter.services', [])
                 //if (dn.STATUS == 0) {
                   Storage.set("despatchNote", dn, true);
                   _data = dn;
+                  _setupProducts(dm.items);
                   deferred.resolve(dn);
                 /*
                 }
@@ -147,11 +157,13 @@ angular.module('starter.services', [])
                 if (dn.DESPATCH_NUM == local.DESPATCH_NUM) {
                   // Use the local one.
                   _data = local;
+                  _setupProducts(local.items);
                   deferred.resolve(local);
                 }
                 else {
                   _data = dn;
                   Storage.set("despatchNote", dn, true);
+                  _setupProducts(dn.items);
                   deferred.resolve(dn);
                 }
               }
@@ -175,9 +187,12 @@ angular.module('starter.services', [])
 
     function _findProductByBarCodeID(despNote, barCodeID) {
       var ret = null;
-      var products = (despNote || {}).items || [];
+      var products = despNote.items; //(despNote || {}).items || [];
       var product;
+      alert("Looping thru products... " + products.length);
       for (var i=0; i < products.length; i++) {
+        alert("interation " + i);
+        alert(JSON.stringify(product));
         product = products[i];
         if (product.PRODUCT_KEY3 == barCodeID) {
           ret = product;
@@ -188,28 +203,28 @@ angular.module('starter.services', [])
     }
 
     function _incrementProductQuanty(barcodeID, despNote) {
-      var products = (despNote || {}).items || [];
       var product;
       var def = $q.defer();
 
-      product = _findProductByBarCodeID(despNote, barcodeID);
-      product.ACTUAL_QUANTITY = product.ACTUAL_QUANTITY || 0;
-      product.ACTUAL_QUANTITY++;
-      Storage.set("despatchNote", despNote);
-      def.resolve(despNote);
+      product = products[barcodeID];
+      if (product) {
+        product.ACTUAL_QUANTITY = product.ACTUAL_QUANTITY || 0;
+        product.ACTUAL_QUANTITY++;
+        Storage.set("despatchNote", despNote);
+        def.resolve(product);
+      }
+      else {
+        def.reject();
+      }
 
       return def.promise;
     }
 
-    function _updateProductQuanty(barcodeID, qty, despNote) {
-      var products = (despNote || {}).items || [];
-      var product;
+    function _updateProductQuanty() {
       var def = $q.defer();
 
-      product = _findProductByBarCodeID(despNote, barcodeID);
-      product.ACTUAL_QUANTITY = qty;
       Storage.set("despatchNote", despNote);
-      def.resolve(despNote);
+      def.resolve(product);
 
       return def.promise;
     }

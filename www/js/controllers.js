@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('DespatchNoteCtrl', function($scope, $stateParams, DespNotes, $cordovaBarcodeScanner, Storage) {
+.controller('DespatchNoteCtrl', function($scope, $stateParams, DespNotes, $cordovaBarcodeScanner, Storage, $timeout) {
   var _this = this;
   this.imgUrl = 'http://www.trilanco.com/userFiles/eShop/images/detail/';
 
@@ -34,7 +34,15 @@ angular.module('starter.controllers', [])
           if (data.cancelled === 0) {
             if (data.text) {
               // Check for the product on the DN
-              DespNotes.incrementProductQuanty(data.text, _this.data);
+              DespNotes.incrementProductQuanty(data.text, _this.data).then(function(product) {
+                $ionicLoading.show({
+                  template: 'Updated ' + product.LONG_DESCRIPTION_1 + ' to ' + product.ACTUAL_QUANTITY
+                }).then(function(){
+                  $timeout(function() {
+                    $ionicLoading.hide();
+                  }, 1000);
+                });
+              });
             }
             else {
               throw "Unable to read barcode.";
